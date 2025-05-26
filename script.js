@@ -2,7 +2,7 @@ console.log("welcome to js!");
 
 const songList = document.querySelector(".songList");
 let currSong = new Audio();
-let currFolder = "songs";
+let currFolder = "./songs";
 let songsUrl;
 const cardContainer = document.querySelector(".card_container");
 
@@ -10,7 +10,8 @@ async function getSongsUrl(folder) {
   try {
     console.log("getSongsUrl() Called..");
     currFolder = folder;
-    const response = await fetch(`/${folder}`);
+
+    const response = await fetch(`${folder}`);
 
     if (!response.ok) {
       throw new Error(response.status);
@@ -27,7 +28,7 @@ async function getSongsUrl(folder) {
 
     for (const element of as) {
       if (element.href.endsWith(".mp3")) {
-        songsUrl.push(element.href.split(`/${folder}/`)[1]);
+        songsUrl.push(element.href.split(`${currFolder}`)[0]);
       }
     }
 
@@ -39,8 +40,10 @@ async function getSongsUrl(folder) {
 
 const playMusic = (song, movie) => {
   console.log("playMusic() called..");
+  console.log("song" + song);
+  console.log("movie" + movie);
 
-  currSong.src = `/${currFolder}/` + song + "-" + movie + ".mp3";
+  currSong.src = `${currFolder}/` + song + "-" + movie + ".mp3";
 
   currSong.play();
 
@@ -74,17 +77,30 @@ function secondsToMinutesSeconds(seconds) {
 }
 
 async function listDownAlbumSongs(currFolder) {
+  console.log(currFolder);
+
   songsUrl = await getSongsUrl(`${encodeURI(`${currFolder}`)}`);
+  console.log(songsUrl);
+
   songList.innerHTML = "";
   for (const song of songsUrl) {
+    console.log(currFolder);
+    console.log(song);
+
+    let filterSong = song.split(
+      `${currFolder.replaceAll(" ", "%20")}/`.replaceAll(".", "")
+    )[1];
+
+    console.log(filterSong);
+
     songList.innerHTML += `
         <li class="songItems flex">
 
           <div class="songItems_info flex">
             <img class="music_logo" src="./imgs/music.svg" alt="music">
             <div>                                
-              <h3>${song.split("-")[0].replaceAll("%20", " ")}</h3>
-                <p>${song
+              <h3>${filterSong.split("-")[0].replaceAll("%20", " ")}</h3>
+                <p>${filterSong
                   .split("-")[1]
                   .replaceAll("%20", " ")
                   .replaceAll(".mp3", "")}</p>
@@ -104,7 +120,7 @@ async function listDownAlbumSongs(currFolder) {
 
 async function listDownAlbums(currFolder) {
   try {
-    const response = await fetch(`/${currFolder}`);
+    const response = await fetch(`${currFolder}`);
     const responseText = await response.text();
     const div = document.createElement("div");
     div.innerHTML = responseText;
@@ -148,7 +164,7 @@ function getPlaySongMovieName() {
   Array.from(
     document.querySelector(".songList").getElementsByTagName("li")
   ).forEach((e) => {
-    e.addEventListener("click", (element) => {
+    e.addEventListener("click", () => {
       const songName = e.getElementsByTagName("h3")[0].innerHTML;
       const movieName = e.getElementsByTagName("p")[0].innerHTML;
       playMusic(songName, movieName);
@@ -207,9 +223,11 @@ async function main() {
 
   previous_button.addEventListener("click", () => {
     console.log("previous_button clicked..");
-    let indexOfCurrSong = songsUrl.indexOf(
-      currSong.src.split("/").slice(-1)[0]
-    );
+
+    console.log(songsUrl);
+
+    let indexOfCurrSong = songsUrl.indexOf(currSong.src);
+    console.log(indexOfCurrSong);
 
     if (indexOfCurrSong === 0) {
       indexOfCurrSong = songsUrl.length - 1;
@@ -217,13 +235,18 @@ async function main() {
       indexOfCurrSong--;
     }
 
-    const songName = `${songsUrl[indexOfCurrSong]
-      .split("-")[0]
-      .replaceAll("%20", " ")}`;
-    const movieName = `${songsUrl[indexOfCurrSong]
+    let filterSong = songsUrl[indexOfCurrSong].split(
+      `${currFolder.replaceAll(" ", "%20")}/`.replaceAll(".", "")
+    )[1];
+
+    const songName = `${filterSong.split("-")[0].replaceAll("%20", " ")}`;
+    const movieName = `${filterSong
       .split("-")[1]
       .replaceAll("%20", " ")
       .replaceAll(".mp3", "")}`;
+    console.log(songName);
+    console.log(movieName);
+
     console.log("Playing ", songName, movieName);
 
     playMusic(songName, movieName);
@@ -231,9 +254,8 @@ async function main() {
 
   next_button.addEventListener("click", () => {
     console.log("next_button clicked..");
-    let indexOfCurrSong = songsUrl.indexOf(
-      currSong.src.split("/").slice(-1)[0]
-    );
+
+    let indexOfCurrSong = songsUrl.indexOf(currSong.src);
 
     if (indexOfCurrSong === songsUrl.length - 1) {
       indexOfCurrSong = 0;
@@ -241,13 +263,16 @@ async function main() {
       indexOfCurrSong++;
     }
 
-    const songName = `${songsUrl[indexOfCurrSong]
-      .split("-")[0]
-      .replaceAll("%20", " ")}`;
-    const movieName = `${songsUrl[indexOfCurrSong]
+    let filterSong = songsUrl[indexOfCurrSong].split(
+      `${currFolder.replaceAll(" ", "%20")}/`.replaceAll(".", "")
+    )[1];
+
+    const songName = `${filterSong.split("-")[0].replaceAll("%20", " ")}`;
+    const movieName = `${filterSong
       .split("-")[1]
       .replaceAll("%20", " ")
       .replaceAll(".mp3", "")}`;
+
     console.log("Playing ", songName, movieName);
 
     playMusic(songName, movieName);
@@ -262,7 +287,7 @@ async function main() {
       console.log("Album Clicked..");
 
       const cardH2 = card.getElementsByTagName("h2");
-      currFolder = `songs/${cardH2[0].innerHTML}`;
+      currFolder = `./songs/${cardH2[0].innerHTML}`;
 
       document.querySelector(".left").style.left = 0;
       document.querySelector(".close").style.display = "inline";
@@ -279,14 +304,20 @@ async function main() {
 
       songsUrl = await listDownAlbumSongs(currFolder);
 
-      const fisrtSongOfAlbum = songsUrl[0].split("-")[0].replaceAll("%20", " ");
+      let filterSong = songsUrl[0].split(
+        `${currFolder.replaceAll(" ", "%20")}/`.replaceAll(".", "")
+      )[1];
+
+      const fisrtSongOfAlbum = filterSong.split("-")[0].replaceAll("%20", " ");
+      console.log(fisrtSongOfAlbum);
+      console.log(cardH2[0].innerHTML);
 
       playMusic(fisrtSongOfAlbum, ` ${cardH2[0].innerHTML}`);
     });
   });
 
   library_list.addEventListener("click", async () => {
-    currFolder = "songs";
+    currFolder = "./songs";
     songsUrl = await listDownAlbumSongs(currFolder);
     getPlaySongMovieName();
   });

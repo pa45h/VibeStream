@@ -440,7 +440,7 @@ input[type="range"] {
 
     .card {
         width: 220px;
-        height: 320px;
+        height: 350px;
         font-size: 12px;
         margin: 10px 0;
     }
@@ -453,5 +453,9 @@ input[type="range"] {
     .search_bar input{
         width: 200px;
         font-size: smaller;
+    }
+
+    .card .play{
+        top: 245px;
     }
 }
