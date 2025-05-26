@@ -3,7 +3,7 @@ console.log("welcome to js!");
 const songList = document.querySelector(".songList");
 let currSong = new Audio();
 let currFolder = "songs";
-let base = 'https://github.com/pa45h/VibeStream/tree/main/songs';
+let base = '';
 let songsUrl;
 const cardContainer = document.querySelector(".card_container");
 
