@@ -3,7 +3,7 @@ console.log("welcome to js!");
 const songList = document.querySelector(".songList");
 let currSong = new Audio();
 let currFolder = "songs";
-const mainPath = "http://127.0.0.1:5500/05_JS_Advanced/Projects/VibeStream";
+// const mainPath = "VibeStream";
 let songsUrl;
 const cardContainer = document.querySelector(".card_container");
 
@@ -11,7 +11,7 @@ async function getSongsUrl(folder) {
   try {
     console.log("getSongsUrl() Called..");
     currFolder = folder;
-    const response = await fetch(`${mainPath}/${folder}`);
+    const response = await fetch(`/${folder}`);
 
     if (!response.ok) {
       throw new Error(response.status);
@@ -41,12 +41,7 @@ async function getSongsUrl(folder) {
 const playMusic = (song, movie) => {
   console.log("playMusic() called..");
 
-  currSong.src =
-    `${mainPath}/${currFolder}/` +
-    song +
-    "-" +
-    movie +
-    ".mp3";
+  currSong.src = `/${currFolder}/` + song + "-" + movie + ".mp3";
 
   currSong.play();
 
@@ -110,9 +105,7 @@ async function listDownAlbumSongs(currFolder) {
 
 async function listDownAlbums(currFolder) {
   try {
-    const response = await fetch(
-      `${mainPath}/${currFolder}`
-    );
+    const response = await fetch(`/${currFolder}`);
     const responseText = await response.text();
     const div = document.createElement("div");
     div.innerHTML = responseText;
@@ -136,14 +129,13 @@ async function listDownAlbums(currFolder) {
           albumSongs.push(a.href);
         }
       }
-
       cardContainer.innerHTML += `
       <div class="card">
         <div class="play">
           <img src="./imgs/play.png" alt="play">
         </div>
         <img src="${album}/cover.jpg" alt="card">
-        <h2>${album.split("/")[7].replaceAll("%20", " ")}</h2>
+        <h2>${album.split("/")[4].replaceAll("%20", " ")}</h2>
         <p>${albumSongs.length} Songs</p>
       </div>
       `;
