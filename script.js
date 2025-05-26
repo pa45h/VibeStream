@@ -39,10 +39,6 @@ async function getSongsUrl(folder) {
 }
 
 const playMusic = (song, movie) => {
-  console.log("playMusic() called..");
-  console.log("song" + song);
-  console.log("movie" + movie);
-
   currSong.src = `${currFolder}/` + song + "-" + movie + ".mp3";
 
   currSong.play();
@@ -77,21 +73,13 @@ function secondsToMinutesSeconds(seconds) {
 }
 
 async function listDownAlbumSongs(currFolder) {
-  console.log(currFolder);
-
   songsUrl = await getSongsUrl(`${encodeURI(`${currFolder}`)}`);
-  console.log(songsUrl);
 
   songList.innerHTML = "";
   for (const song of songsUrl) {
-    console.log(currFolder);
-    console.log(song);
-
     let filterSong = song.split(
       `${currFolder.replaceAll(" ", "%20")}/`.replaceAll(".", "")
     )[1];
-
-    console.log(filterSong);
 
     songList.innerHTML += `
         <li class="songItems flex">
@@ -224,10 +212,7 @@ async function main() {
   previous_button.addEventListener("click", () => {
     console.log("previous_button clicked..");
 
-    console.log(songsUrl);
-
     let indexOfCurrSong = songsUrl.indexOf(currSong.src);
-    console.log(indexOfCurrSong);
 
     if (indexOfCurrSong === 0) {
       indexOfCurrSong = songsUrl.length - 1;
@@ -244,8 +229,6 @@ async function main() {
       .split("-")[1]
       .replaceAll("%20", " ")
       .replaceAll(".mp3", "")}`;
-    console.log(songName);
-    console.log(movieName);
 
     console.log("Playing ", songName, movieName);
 
@@ -309,8 +292,6 @@ async function main() {
       )[1];
 
       const fisrtSongOfAlbum = filterSong.split("-")[0].replaceAll("%20", " ");
-      console.log(fisrtSongOfAlbum);
-      console.log(cardH2[0].innerHTML);
 
       playMusic(fisrtSongOfAlbum, ` ${cardH2[0].innerHTML}`);
     });
