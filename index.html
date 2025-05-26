@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeStream</title>
+    <link rel="shortcut icon" href="./imgs/fevicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="flex">
+    <div class="left">
+
+        <div class="home bg_gray rounded_border m1">
+
+            <div class="close">
+                <img class="invert hover_scale" src="./imgs/close.svg" alt="close">
+            </div>
+
+            <div class="logo">
+                <img src="./imgs/logo.png" alt="logo">
+            </div>
+
+            <ul>
+                <li class="hover_scale"><img class="invert" src="./imgs/home.svg" alt="home">Home</li>
+            </ul>
+
+        </div>
+
+        <div class="library bg_gray rounded_border m1 p1">
+
+            <div id="library_list" class="heading">
+                <img class=" invert hover_scale" src="./imgs/playlist.svg" alt="playlist">
+                <h2 class="hover_scale">
+                    Your Library
+                </h2>
+            </div>
+
+            <ul class="songList songList_container">
+
+            </ul>
+
+            <div class="footer">
+                <div><a href="#"><span>Legal</span></a></div>
+                <div><a href="#"><span>Privacy Center</span></a></div>
+                <div><a href="#"><span>Privacy Policy</span></a></div>
+                <div><a href="#"><span>Cookies</span></a></div>
+                <div><a href="#"><span>About Ads</span></a></div>
+                <div><a href="#"><span>Accessibility</span></a></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="right bg_gray rounded_border">
+
+        <div class="header rounded_border">
+
+            <div class="nav">
+                <img id="hamburger" class="invert hover_scale" src="./imgs/playlist.svg" alt="hamburger">
+            </div>
+
+            <div class="search_bar p1 m1">
+                <input id="search_input" type="search" name="search" placeholder="🔍 Search albums or songs…">
+            </div>
+
+            <div class="profile">
+                <a href="https://github.com/pa45h">
+                    <img src="./imgs/PARTH.jpg" alt="profile">
+                </a>
+            </div>
+
+        </div>
+
+        <div class="playlists">
+            <h1>VibeStream Play-Lists</h1>
+
+            <div class="card_container">
+
+            </div>
+
+            <div class="playBar flex">
+
+                <div class="song_info hover_scale">
+                    <img class="musicPlaying" src="./imgs/musicPlaying.gif" alt="playing">
+                    <h4 id="currentSong_name"></h4>
+                </div>
+
+                <div class="song_buttons flex">
+                    <div class="navi_btns flex">
+                        <img id="previous_button" class="hover_scale" src="./imgs/previous.svg" alt="previous">
+                        <img id="play_button" class="hover_scale" src="./imgs/play.svg" alt="play">
+                        <img id="next_button" class="hover_scale" src="./imgs/next.svg" alt="next">
+                    </div>
+
+                    <div class="volume_bar flex">
+                        <img class="hover_scale" src="./imgs/volume.svg" alt="volume">
+                        <input id="volume_range" type="range" min="0" max="100" step="0.1" value="100">
+                    </div>
+                </div>
+
+                <h3 id="selectSong" class=" flex justify_center p1">🎧Select a song to enjoy your Streamed Vibe🎵
+                </h3>
+
+                <div class="playing_songs flex">
+
+                    <div id="song_time">0:00</div>
+                    <div class="seekbar">
+                        <input class="seekbar_range" type="range" min="0" max="100" step="0.1">
+                    </div>
+                    <div id="song_duration">5:30</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
