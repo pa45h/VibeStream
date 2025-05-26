@@ -2,8 +2,7 @@ console.log("welcome to js!");
 
 const songList = document.querySelector(".songList");
 let currSong = new Audio();
-let currFolder = "songs";
-// const mainPath = "VibeStream";
+let currFolder = "/songs";
 let songsUrl;
 const cardContainer = document.querySelector(".card_container");
 
